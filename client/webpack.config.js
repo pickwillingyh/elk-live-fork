@@ -23,6 +23,7 @@ module.exports = async function (env) {
 
     const buildRoot = path.resolve(__dirname, 'lib');
     const appRoot = path.resolve(__dirname, 'app');
+    const strWinAppRoot = path.resolve(__dirname, 'app').replace(/\\/g, '/');
     const monacoEditorPath = env.production ? 'node_modules/monaco-editor-core/min/vs' : 'node_modules/monaco-editor-core/dev/vs';
     const bootstrapDistPath = 'node_modules/bootstrap/dist';
     const jqueryDistPath = 'node_modules/jquery/dist';
@@ -55,7 +56,7 @@ module.exports = async function (env) {
                                      .join("");
 
     // Generate json files that hold the available models and examples
-    const replaceLocalPaths = paths => paths.map(p => p.replace(`${appRoot}/elk-models/`, ''));
+    const replaceLocalPaths = paths => paths.map(p => p.replace(`${strWinAppRoot}/elk-models/`, ''));
     const addQuotes = paths => paths.map(p => `"${p}"`);
     const models = await globby(`${appRoot}/elk-models/**/*.json`)
         .then(replaceLocalPaths)
